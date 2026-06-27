@@ -1,0 +1,12 @@
+diff --git a/drivers/net/wireless/Kconfig b/drivers/net/wireless/Kconfig
+--- a/drivers/net/wireless/Kconfig
++++ b/drivers/net/wireless/Kconfig
+@@ -36,7 +36,7 @@
+ source "drivers/net/wireless/ti/Kconfig"
+ source "drivers/net/wireless/zydas/Kconfig"
+ source "drivers/net/wireless/quantenna/Kconfig"
+-
++source "drivers/net/wireless/uwe5622/Kconfig"
+ source "drivers/net/wireless/virtual/Kconfig"
+ 
+ endif # WLAN

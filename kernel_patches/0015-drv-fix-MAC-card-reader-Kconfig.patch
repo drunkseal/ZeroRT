@@ -1,0 +1,10 @@
+diff --git a/drivers/misc/Kconfig b/drivers/misc/Kconfig
+--- a/drivers/misc/Kconfig
++++ b/drivers/misc/Kconfig
+@@ -627,5 +627,6 @@
+ source "drivers/misc/uacce/Kconfig"
+ source "drivers/misc/pvpanic/Kconfig"
+ source "drivers/misc/mchp_pci1xxxx/Kconfig"
++source "drivers/misc/sunxi-addr/Kconfig"
+ source "drivers/misc/keba/Kconfig"
+ endmenu

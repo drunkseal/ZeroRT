@@ -1,0 +1,117 @@
+diff --git a/drivers/misc/sunxi-addr/sunxi-addr.c b/drivers/misc/sunxi-addr/sunxi-addr.c
+index 3ba0a11..6904067 100644
+--- a/drivers/misc/sunxi-addr/sunxi-addr.c
++++ b/drivers/misc/sunxi-addr/sunxi-addr.c
+@@ -334,10 +334,9 @@ static int addr_mgt_probe(struct platform_device *pdev)
+ 	return 0;
+ }
+ 
+-static int addr_mgt_remove(struct platform_device *pdev)
++static void addr_mgt_remove(struct platform_device *pdev)
+ {
+ 	class_unregister(&addr_class);
+-	return 0;
+ }
+ 
+ static struct platform_driver addr_mgt_driver = {
+diff --git a/drivers/net/wireless/uwe5622/tty-sdio/tty.c b/drivers/net/wireless/uwe5622/tty-sdio/tty.c
+index f6506d9..f0e203f 100644
+--- a/drivers/net/wireless/uwe5622/tty-sdio/tty.c
++++ b/drivers/net/wireless/uwe5622/tty-sdio/tty.c
+@@ -781,7 +781,7 @@ static void  mtty_shutdown(struct platform_device *pdev)
+ }
+ #endif
+ 
+-static int  mtty_remove(struct platform_device *pdev)
++static void mtty_remove(struct platform_device *pdev)
+ {
+ 	struct mtty_device *mtty = platform_get_drvdata(pdev);
+ 
+@@ -799,8 +799,6 @@ static int  mtty_remove(struct platform_device *pdev)
+ 	sysfs_remove_group(&pdev->dev.kobj, &bluetooth_group);
+ //#endif
+ 	bluesleep_exit();
+-
+-	return 0;
+ }
+ 
+ static const struct of_device_id mtty_match_table[] = {
+diff --git a/drivers/net/wireless/uwe5622/unisocwcn/platform/wcn_boot.c b/drivers/net/wireless/uwe5622/unisocwcn/platform/wcn_boot.c
+index b243b39..a35a822 100644
+--- a/drivers/net/wireless/uwe5622/unisocwcn/platform/wcn_boot.c
++++ b/drivers/net/wireless/uwe5622/unisocwcn/platform/wcn_boot.c
+@@ -3862,7 +3862,7 @@ static int marlin_probe(struct platform_device *pdev)
+ 	return 0;
+ }
+ 
+-static int  marlin_remove(struct platform_device *pdev)
++static void marlin_remove(struct platform_device *pdev)
+ {
+ #if (defined(CONFIG_BT_WAKE_HOST_EN) && defined(CONFIG_AW_BOARD))
+ 	marlin_unregistsr_bt_wake();
+@@ -3902,8 +3902,6 @@ static int  marlin_remove(struct platform_device *pdev)
+ 	devm_kfree(&pdev->dev, marlin_dev);
+ 
+ 	WCN_INFO("marlin_remove ok!\n");
+-
+-	return 0;
+ }
+ 
+ static void marlin_shutdown(struct platform_device *pdev)
+diff --git a/drivers/net/wireless/uwe5622/unisocwifi/cfg80211.c b/drivers/net/wireless/uwe5622/unisocwifi/cfg80211.c
+index 584b4b4..4eea564 100644
+--- a/drivers/net/wireless/uwe5622/unisocwifi/cfg80211.c
++++ b/drivers/net/wireless/uwe5622/unisocwifi/cfg80211.c
+@@ -2872,7 +2872,7 @@ static void sprdwl_cfg80211_stop_p2p_device(struct wiphy *wiphy,
+ }
+ 
+ static int sprdwl_cfg80211_tdls_mgmt(struct wiphy *wiphy,
+-				     struct net_device *ndev, const u8 *peer,
++				     struct net_device *ndev, const u8 *peer, int link_id,
+ 				     u8 action_code, u8 dialog_token,
+ 				     u16 status_code,  u32 peer_capability,
+ 				     bool initiator, const u8 *buf, size_t len)
+diff --git a/drivers/net/wireless/uwe5622/unisocwifi/npi.c b/drivers/net/wireless/uwe5622/unisocwifi/npi.c
+index e5eb84e..f1e5ff1 100644
+--- a/drivers/net/wireless/uwe5622/unisocwifi/npi.c
++++ b/drivers/net/wireless/uwe5622/unisocwifi/npi.c
+@@ -104,7 +104,7 @@ static int sprdwl_cmd_set_psm_cap(struct sprdwl_vif *vif)
+ 	return ret;
+ }
+ 
+-static int sprdwl_npi_pre_doit(const struct genl_ops *ops,
++static int sprdwl_npi_pre_doit(const struct genl_split_ops *ops,
+ 			       struct sk_buff *skb, struct genl_info *info)
+ {
+ 	struct net_device *ndev;
+@@ -135,7 +135,7 @@ static int sprdwl_npi_pre_doit(const struct genl_ops *ops,
+ 	return 0;
+ }
+ 
+-static void sprdwl_npi_post_doit(const struct genl_ops *ops,
++static void sprdwl_npi_post_doit(const struct genl_split_ops *ops,
+ 				 struct sk_buff *skb, struct genl_info *info)
+ {
+ 	if (info->user_ptr[0])
+diff --git a/drivers/net/wireless/uwe5622/unisocwifi/wl_core.c b/drivers/net/wireless/uwe5622/unisocwifi/wl_core.c
+index 4ffaacb..8690357 100644
+--- a/drivers/net/wireless/uwe5622/unisocwifi/wl_core.c
++++ b/drivers/net/wireless/uwe5622/unisocwifi/wl_core.c
+@@ -779,7 +779,7 @@ static int sprdwl_probe(struct platform_device *pdev)
+ 	return ret;
+ }
+ 
+-static int sprdwl_remove(struct platform_device *pdev)
++static void sprdwl_remove(struct platform_device *pdev)
+ {
+ 	struct sprdwl_intf *intf = platform_get_drvdata(pdev);
+ 	struct sprdwl_priv *priv = intf->priv;
+@@ -799,8 +799,6 @@ static int sprdwl_remove(struct platform_device *pdev)
+ 	kfree(intf);
+ 	stop_marlin(MARLIN_WIFI);
+ 	wl_info("%s\n", __func__);
+-
+-	return 0;
+ }
+ 
+ static const struct of_device_id sprdwl_of_match[] = {
